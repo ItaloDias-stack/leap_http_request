@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:dartz/dartz.dart';
+//import 'package:dartz/dartz.dart';
+import 'package:leap_http_request/data/result.dart';
 import 'package:leap_http_request/implementation/utils.dart';
 import 'package:leap_http_request/interface/dio_client_interface.dart';
 import 'package:leap_http_request/model/api_failure_model.dart';
@@ -16,7 +17,7 @@ class DioClientImpl implements DioClientInterface {
   Dio? _dioClient;
   DioClientImpl(this.baseUrl);
   @override
-  Future<Either<ApiFailure, HttpResponse>> delete(
+  ApiResult<ApiFailure, HttpResponse> delete(
     String path, {
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
@@ -36,7 +37,7 @@ class DioClientImpl implements DioClientInterface {
   }
 
   @override
-  Future<Either<ApiFailure, HttpResponse>> get(
+  ApiResult<ApiFailure, HttpResponse> get(
     String path, {
     Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
@@ -55,7 +56,7 @@ class DioClientImpl implements DioClientInterface {
   }
 
   @override
-  Future<Either<ApiFailure, HttpResponse>> patch(String path,
+  ApiResult<ApiFailure, HttpResponse> patch(String path,
       {Map<String, String>? headers,
       Map<String, dynamic>? queryParams,
       Map<String, dynamic>? body,
@@ -74,7 +75,7 @@ class DioClientImpl implements DioClientInterface {
   }
 
   @override
-  Future<Either<ApiFailure, HttpResponse>> post(String path,
+  ApiResult<ApiFailure, HttpResponse> post(String path,
       {Map<String, String>? headers,
       Map<String, dynamic>? queryParams,
       Map<String, dynamic>? body,
@@ -93,7 +94,7 @@ class DioClientImpl implements DioClientInterface {
   }
 
   @override
-  Future<Either<ApiFailure, HttpResponse>> put(String path,
+  ApiResult<ApiFailure, HttpResponse> put(String path,
       {Map<String, String>? headers,
       Map<String, dynamic>? queryParams,
       Map<String, dynamic>? body,
@@ -111,7 +112,7 @@ class DioClientImpl implements DioClientInterface {
     return await makeRequest(request, maxRetryAttempts);
   }
 
-  Future<Either<ApiFailure, HttpResponse>> makeRequest(
+  ApiResult<ApiFailure, HttpResponse> makeRequest(
     Request request,
     int maxAttempts,
   ) async {
@@ -146,14 +147,14 @@ class DioClientImpl implements DioClientInterface {
         message: response.statusMessage,
       );
       log(error.toString());
-      return Left(error);
+      return Result.failure(error);
     } else {
       var success = HttpResponse(
         response.statusCode ?? 0,
         response.data,
       );
       log(success.toString());
-      return Right(success);
+      return Result.success(success);
     }
   }
 

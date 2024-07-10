@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "flutter_leap_request" "\0"
+            VALUE "FileDescription", "leap_http_request" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "flutter_leap_request" "\0"
+            VALUE "InternalName", "leap_http_request" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "flutter_leap_request.exe" "\0"
-            VALUE "ProductName", "flutter_leap_request" "\0"
+            VALUE "OriginalFilename", "leap_http_request.exe" "\0"
+            VALUE "ProductName", "leap_http_request" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:flutter_leap_request/model/request_model.dart';
-import 'package:flutter_leap_request/utils/enums.dart';
+import 'package:leap_http_request/model/request_model.dart';
+import 'package:leap_http_request/utils/enums.dart';
 
 const validStatusCodes = [200, 201];
 Request mountRequest(

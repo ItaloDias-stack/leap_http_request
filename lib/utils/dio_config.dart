@@ -1,7 +1,7 @@
 // import 'package:dio/dio.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:flutter_leap_request/utils/api_failure.dart';
-// import 'package:flutter_leap_request/utils/authentication.dart';
+// import 'package:leap_http_request/utils/api_failure.dart';
+// import 'package:leap_http_request/utils/authentication.dart';
 
 // class DioConfig {
 //   static final DioConfig _instance = DioConfig.internal();

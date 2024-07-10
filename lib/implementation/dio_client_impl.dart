@@ -1,14 +1,14 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter_leap_request/implementation/utils.dart';
-import 'package:flutter_leap_request/interface/dio_client_interface.dart';
-import 'package:flutter_leap_request/model/api_failure_model.dart';
-import 'package:flutter_leap_request/model/request_model.dart';
-import 'package:flutter_leap_request/model/response_model.dart';
+import 'package:leap_http_request/implementation/utils.dart';
+import 'package:leap_http_request/interface/dio_client_interface.dart';
+import 'package:leap_http_request/model/api_failure_model.dart';
+import 'package:leap_http_request/model/request_model.dart';
+import 'package:leap_http_request/model/response_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_leap_request/utils/enums.dart';
+import 'package:leap_http_request/utils/enums.dart';
 
 class DioClientImpl implements DioClientInterface {
   @override

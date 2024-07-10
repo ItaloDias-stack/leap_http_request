@@ -1,4 +1,4 @@
-# flutter_leap_request
+# leap_http_request
 
 A new Flutter project.
 

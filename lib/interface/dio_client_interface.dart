@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_leap_request/model/api_failure_model.dart';
-import 'package:flutter_leap_request/model/response_model.dart';
+import 'package:leap_http_request/model/api_failure_model.dart';
+import 'package:leap_http_request/model/response_model.dart';
 
 abstract class DioClientInterface {
   final String baseUrl;

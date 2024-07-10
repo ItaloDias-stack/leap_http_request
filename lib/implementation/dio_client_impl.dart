@@ -7,15 +7,14 @@ import 'package:leap_http_request/model/api_failure_model.dart';
 import 'package:leap_http_request/model/request_model.dart';
 import 'package:leap_http_request/model/response_model.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:leap_http_request/utils/enums.dart';
 
 class DioClientImpl implements DioClientInterface {
   @override
-  String baseUrl = dotenv.env['BASE_URL'] ?? "";
+  String baseUrl;
 
   Dio? _dioClient;
-
+  DioClientImpl(this.baseUrl);
   @override
   Future<Either<ApiFailure, HttpResponse>> delete(
     String path, {

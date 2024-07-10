@@ -5,7 +5,7 @@ class ApiFailure {
   const ApiFailure({
     required this.code,
     this.message,
-    required this.response,
+    this.response,
   });
 
   @override

@@ -126,35 +126,52 @@ class DioClientImpl implements DioClientInterface {
 
     final client = _dioClient ?? await _getDioClient();
     int retryAttempts = 0;
-    Response response;
-    //do {
-    response = await client.fetch(
-      RequestOptions(
-        method: request.method,
-        baseUrl: baseUrl,
-        path: request.path,
-        queryParameters: request.queryParameters,
-        headers: request.headers,
-        data: request.body,
-      ),
-    );
-    //} while (retryAttempts <= maxAttempts);
+    try {
+      Response response;
+      //do {
+      response = await client.fetch(
+        RequestOptions(
+          method: request.method,
+          baseUrl: baseUrl,
+          path: request.path,
+          queryParameters: request.queryParameters,
+          headers: request.headers,
+          data: request.body,
+        ),
+      );
+      //} while (retryAttempts <= maxAttempts);
 
-    if (!validStatusCodes.contains(response.statusCode)) {
+      if (!validStatusCodes.contains(response.statusCode)) {
+        var error = ApiFailure(
+          code: response.statusCode ?? 0,
+          response: response,
+          message: response.statusMessage,
+        );
+        log(error.toString());
+        return Result.failure(error);
+      } else {
+        var success = HttpResponse(
+          response.statusCode ?? 0,
+          response.data,
+        );
+        log(success.toString());
+        return Result.success(success);
+      }
+    } on DioException catch (e) {
       var error = ApiFailure(
-        code: response.statusCode ?? 0,
-        response: response,
-        message: response.statusMessage,
+        code: e.response?.statusCode ?? 0,
+        response: e.response,
+        message: e.message,
       );
       log(error.toString());
       return Result.failure(error);
-    } else {
-      var success = HttpResponse(
-        response.statusCode ?? 0,
-        response.data,
+    } catch (e, s) {
+      var error = ApiFailure(
+        code: 0,
+        message: e.toString(),
       );
-      log(success.toString());
-      return Result.success(success);
+      log("${error.toString()} $s");
+      return Result.failure(error);
     }
   }
 

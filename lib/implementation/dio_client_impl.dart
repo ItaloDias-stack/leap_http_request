@@ -128,18 +128,19 @@ class DioClientImpl implements DioClientInterface {
     int retryAttempts = 0;
     try {
       Response response;
-      //do {
-      response = await client.fetch(
-        RequestOptions(
-          method: request.method,
-          baseUrl: baseUrl,
-          path: request.path,
-          queryParameters: request.queryParameters,
-          headers: request.headers,
-          data: request.body,
-        ),
-      );
-      //} while (retryAttempts <= maxAttempts);
+      do {
+        response = await client.fetch(
+          RequestOptions(
+            method: request.method,
+            baseUrl: baseUrl,
+            path: request.path,
+            queryParameters: request.queryParameters,
+            headers: request.headers,
+            data: request.body,
+          ),
+        );
+        retryAttempts++;
+      } while (retryAttempts <= maxAttempts);
 
       if (!validStatusCodes.contains(response.statusCode)) {
         var error = ApiFailure(

@@ -16,6 +16,19 @@ class Result<ApiFailure, T> {
   factory Result.success(T data) {
     return Result._(null, data);
   }
+
+  dynamic when({
+    required Function(ApiFailure error) failure,
+    required Function(T) success,
+  }) {
+    if (isFailure && _error != null) {
+      return failure(_error);
+    } else if (isSuccess && _data != null) {
+      return success(_data);
+    } else {
+      return null;
+    }
+  }
 }
 
 typedef ApiResult<E extends ApiFailure, T> = Future<Result<E, T>>;

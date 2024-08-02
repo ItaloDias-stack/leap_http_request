@@ -1,21 +1,24 @@
 import 'dart:developer';
-
-//import 'package:dartz/dartz.dart';
 import 'package:leap_http_request/data/result.dart';
 import 'package:leap_http_request/implementation/utils.dart';
-import 'package:leap_http_request/interface/dio_client_interface.dart';
+import 'package:leap_http_request/interface/http_client_interface.dart';
 import 'package:leap_http_request/model/api_failure_model.dart';
 import 'package:leap_http_request/model/request_model.dart';
 import 'package:leap_http_request/model/response_model.dart';
 import 'package:dio/dio.dart';
 import 'package:leap_http_request/utils/enums.dart';
 
-class DioClientImpl implements DioClientInterface {
+class HttpClientImpl implements HttpClientInterface {
   @override
   String baseUrl;
+  @override
+  Function(DioException, ErrorInterceptorHandler)? onError;
+
+  @override
+  Function(RequestOptions, RequestInterceptorHandler)? onRequest;
 
   Dio? _dioClient;
-  DioClientImpl(this.baseUrl);
+  HttpClientImpl(this.baseUrl);
   @override
   ApiResult<ApiFailure, HttpResponse> delete(
     String path, {
@@ -182,7 +185,53 @@ class DioClientImpl implements DioClientInterface {
       connectTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 20),
     ));
-
+    final _customInterceptors = CustomInterceptors(
+      dioInterface,
+      onErrorFunction: onError,
+      onRequestFunction: onRequest,
+    );
+    dioInterface.interceptors.add(_customInterceptors);
     return dioInterface;
+  }
+}
+
+class CustomInterceptors extends InterceptorsWrapper {
+  final Dio? dio;
+  final Function(
+    RequestOptions,
+    RequestInterceptorHandler,
+  )? onRequestFunction;
+
+  final Function(
+    DioException,
+    ErrorInterceptorHandler,
+  )? onErrorFunction;
+
+  CustomInterceptors(
+    this.dio, {
+    this.onRequestFunction,
+    this.onErrorFunction,
+  });
+
+  @override
+  Future onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    if (onRequestFunction != null) {
+      onRequestFunction!(options, handler);
+    }
+    return super.onRequest(options, handler);
+  }
+
+  @override
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
+    if (onErrorFunction != null) {
+      onErrorFunction!(
+        err,
+        handler,
+      );
+    }
   }
 }

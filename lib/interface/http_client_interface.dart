@@ -1,11 +1,26 @@
 //import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:leap_http_request/data/result.dart';
 import 'package:leap_http_request/model/api_failure_model.dart';
 import 'package:leap_http_request/model/response_model.dart';
 
-abstract class DioClientInterface {
+abstract class HttpClientInterface {
   final String baseUrl;
-  DioClientInterface(this.baseUrl);
+  final Function(
+    RequestOptions,
+    RequestInterceptorHandler,
+  )? onRequest;
+
+  final Function(
+    DioException,
+    ErrorInterceptorHandler,
+  )? onError;
+
+  HttpClientInterface(
+    this.baseUrl, {
+    this.onError,
+    this.onRequest,
+  });
 
   ApiResult<ApiFailure, HttpResponse> get(
     String path, {

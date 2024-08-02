@@ -18,7 +18,11 @@ class HttpClientImpl implements HttpClientInterface {
   Function(RequestOptions, RequestInterceptorHandler)? onRequest;
 
   Dio? _dioClient;
-  HttpClientImpl(this.baseUrl);
+  HttpClientImpl(
+    this.baseUrl, {
+    this.onError,
+    this.onRequest,
+  });
   @override
   ApiResult<ApiFailure, HttpResponse> delete(
     String path, {
